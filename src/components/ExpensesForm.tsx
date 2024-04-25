@@ -37,11 +37,21 @@ export const ExpensesForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (Object.values(expense).includes('')) {
-      setError('All fields are obligatory')
+      setError('Todos los campos son obligatorios!')
       console.log(error)
       return
     }
+
+    // Agregar un nuevo gasto
     dispatch({ type: 'add-expense', payload: { expense } })
+
+    // Reiniciar state expense con valores en 0
+    setExpense({
+      amount: 0,
+      expenseName: '',
+      category: '',
+      date: new Date()
+    })
   }
 
   return (
@@ -67,6 +77,7 @@ export const ExpensesForm = () => {
           className="bg-slate-100 p-2"
           name="expenseName"
           onChange={handleChange}
+          value={expense.expenseName}
         />
       </div>
 
@@ -84,6 +95,7 @@ export const ExpensesForm = () => {
           name="amount"
           min={0}
           onChange={handleChange}
+          value={expense.amount}
         />
       </div>
 
@@ -97,7 +109,8 @@ export const ExpensesForm = () => {
           id="category"
           className="bg-slate-100 p-2"
           name="category"
-          onChange={handleChange}        >
+          onChange={handleChange}
+          value={expense.category}      >
           <option value="">-- Selecione --</option>
           {categories.map(cat => (
             <option
