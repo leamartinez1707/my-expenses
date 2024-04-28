@@ -24,23 +24,23 @@ export const BudgetForm = () => {
 
             <div className="flex flex-col space-y-5">
                 <label htmlFor="budget" className="text-4xl text-red-600 font-bold text-center">
-                    Define budget
+                    Presupuesto
                 </label>
                 <input
                     autoFocus
                     type="number"
                     id="budget"
                     className="w-full bg-white border border-gray-200 p-2"
-                    placeholder="Define your budget"
+                    placeholder="Define tu presupuesto Ej: 2500"
                     name="budget"
-                    value={budget}
+                    value={budget ? budget : ''}
                     onChange={handleChange}
                 />
             </div>
             <input
                 disabled={isValid}
                 type="submit"
-                value='Define budget'
+                value='Definir presupuesto'
                 className="bg-red-600 hover:bg-red-700 cursor-pointer uppercase w-full p-2 text-white font-black disabled:opacity-40" />
         </form>
     )

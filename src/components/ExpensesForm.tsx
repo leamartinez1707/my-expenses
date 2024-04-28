@@ -3,7 +3,7 @@ import type { DraftExpense, Value } from "../types";
 import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css'
 import 'react-calendar/dist/Calendar.css'
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Error } from "./Error";
 import { useBudget } from "../hooks/useBudget";
 
@@ -16,7 +16,18 @@ export const ExpensesForm = () => {
     date: new Date()
   })
   const [error, setError] = useState('')
-  const { dispatch } = useBudget()
+  const [previousAmount, setPreviousAmount] = useState(0)
+  const { dispatch, state, remainingBudget } = useBudget()
+
+
+  useEffect(() => {
+
+    if (state.editingId) {
+      const editingExpense = state.expenses.filter(exp => exp.id === state.editingId)[0]
+      setPreviousAmount(editingExpense.amount)
+      setExpense(editingExpense)
+    }
+  }, [state.editingId])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -36,14 +47,27 @@ export const ExpensesForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    // Valida si todos los campos estan completos
     if (Object.values(expense).includes('')) {
       setError('Todos los campos son obligatorios!')
-      console.log(error)
       return
     }
 
-    // Agregar un nuevo gasto
-    dispatch({ type: 'add-expense', payload: { expense } })
+    // Validar que no se exceda del presupuesto definido
+
+    if ((expense.amount - previousAmount) > remainingBudget) {
+      setError(`El gasto excede el presupuesto. Disponible $${remainingBudget}`)
+      return
+    }
+
+    // Agregar o actualizar un nuevo gasto
+    if (state.editingId) {
+      dispatch({ type: 'update-expense', payload: { expense: { id: state.editingId, ...expense } } })
+    } else {
+      dispatch({ type: 'add-expense', payload: { expense } })
+
+    }
 
     // Reiniciar state expense con valores en 0
     setExpense({
@@ -52,6 +76,7 @@ export const ExpensesForm = () => {
       category: '',
       date: new Date()
     })
+    setPreviousAmount(0)
   }
 
   return (
@@ -61,7 +86,7 @@ export const ExpensesForm = () => {
       <legend
         className="uppercase text-center text-2xl font-black border-b-4 py-2 border-red-500 "
       >
-        Nuevo gasto
+        {state.editingId ? 'Modificar gasto' : 'Nuevo gasto'}
       </legend>
       {error && <Error>{error}</Error>}
       <div className="flex flex-col gap-2">
@@ -139,7 +164,7 @@ export const ExpensesForm = () => {
       <input
         type="submit"
         className="bg-black hover:bg-gray-700 cursor-pointer w-full p-2 text-white uppercase font-bold rounded-lg "
-        value={'Registrar gasto'} />
+        value={state.editingId ? 'Guardar cambios' : 'Registrar gasto'} />
     </form>
   )
 }
