@@ -9,6 +9,12 @@ export const BudgetTracker = () => {
 
     const percentage = +((totalExpenses / state.budget) * 100).toFixed(2)
 
+    const handleReset = () => {
+        if (confirm('¿Estás seguro de que quieres reiniciar la aplicación?')) {
+            dispatch({ type: 'reset-app' })
+        }
+    }
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="flex justify-center">
@@ -27,7 +33,7 @@ export const BudgetTracker = () => {
             <div className="flex flex-col justify-center items-center gap-8">
                 <button
                     type="button"
-                    onClick={() => dispatch({ type: 'reset-app' })}
+                    onClick={handleReset}
                     className="bg-pink-600 w-full p-2 text-white uppercase font-bold rounded-lg"
                 >
                     Resetear App
