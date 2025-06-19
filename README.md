@@ -23,6 +23,7 @@ Permite registrar y categorizar gastos, definiendo un presupuesto límite. La ap
 - **TailwindCSS** para estilos
 - **React Circular Progressbar** para visualización gráfica
 - **React Date Picker** para selección de fechas
+- **React Swipeable List** para acciones rápidas (editar/eliminar) deslizando cada gasto
 
 ## ¿Por qué este proyecto?
 

@@ -23,19 +23,18 @@ function App() {
 
   return (
     <>
-      <div className="bg-red-600 py-8 max-h-72
-      ">
+      <div className="bg-red-600 py-8 lg:max-h-72 flex flex-col items-center justify-center gap-y-4 p-4">
         <h1 className='uppercase text-center font-black text-4xl text-white'>Controlá tus gastos diarios</h1>
         <p className="text-2xl text-center text-white font-thin">Definí un presupuesto final, y día a día agregá todo lo que vayas gastando, para llevar un control de tu presupuesto.</p>
         <p className="text-2xl text-center text-white font-thin">Toda la información es guardada en tu navegador, si borras el historial o los datos de esta página, probablemente perderas lo que has cargado.</p>
 
       </div>
-      <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg mt-10 px-10 py-8 mb-10
+      <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg lg:mt-10 px-10 py-8 mb-10
       ">
         {isValidObject && (
           <>
             <h2 className="text-3xl font-black text-center mb-4">Presupuesto</h2>
-            <p className="text-center font-light text-xl mb-4"><span className="font-black">Importante:</span> Precisas editar o borrar uno de tus gastos? Simplemente arrastralo hacía la izquierda para borrar, o hacía la derecha para editar.</p>
+            <p className="text-center font-light text-xl mb-10 flex flex-col"><span className="font-black">Importante</span> Precisas editar o borrar uno de tus gastos? Simplemente arrastralo hacía la izquierda para borrar, o hacía la derecha para editar.</p>
           </>
         )}
         {isValidObject ? <BudgetTracker /> : <BudgetForm

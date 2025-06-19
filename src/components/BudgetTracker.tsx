@@ -30,11 +30,11 @@ export const BudgetTracker = () => {
                     text={`Gastado ${percentage}%`}
                 />
             </div>
-            <div className="flex flex-col justify-center items-center gap-8">
+            <div className="flex flex-col justify-center gap-8">
                 <button
                     type="button"
                     onClick={handleReset}
-                    className="bg-pink-600 w-full p-2 text-white uppercase font-bold rounded-lg"
+                    className="bg-pink-600 w-full p-2 text-white uppercase font-bold rounded-lg hover:shadow-lg transition-all duration-300 hover:bg-pink-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-pink-600"
                 >
                     Resetear App
                 </button>
